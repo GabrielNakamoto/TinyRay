@@ -6,18 +6,8 @@ struct vec3f {
 
     vec3f() : x(), y(), z() {};
     vec3f(float x, float y, float z) : x(x), y(y), z(z) {};
+    vec3f(const vec3f &v) : x(v.x), y(v.y), z(v.z) {};
 
-    vec3f operator+(const vec3f &v){
-        return vec3f(x+v.x, y+v.y, z+v.z);
-    }
-
-    vec3f operator-(const vec3f &v){
-        return vec3f(x-v.x, y-v.y, z-v.z);
-    }
-
-    vec3f operator*(const float &s){
-        return vec3f(x*s, y*s, z*s);
-    }
 
     float dot(const vec3f &v){
         return x*v.x + y*v.y + z*v.z;
@@ -36,3 +26,19 @@ struct vec3f {
         return *this;
     }
 };
+
+float dot(const vec3f &ls, const vec3f &rs){
+    return ls.x*rs.x + ls.y*rs.y + ls.z*rs.z;
+}
+
+vec3f operator+(const vec3f &ls, const vec3f &rs){
+    return vec3f(ls.x+rs.x, ls.y+rs.y, ls.z+rs.z);
+}
+
+vec3f operator-(const vec3f &ls, const vec3f &rs){
+    return vec3f(ls.x-rs.x, ls.y-rs.y, ls.z-rs.z);
+}
+
+vec3f operator*(const vec3f &v, float s){
+    return vec3f(v.x*s, v.y*s, v.z*s);
+}
