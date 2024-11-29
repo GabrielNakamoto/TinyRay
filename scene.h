@@ -10,6 +10,7 @@ struct Intersection {
     Material material;
     vec3f hit_point;
     vec3f normal;
+    float distance;
 };
 
 struct Camera {
@@ -31,16 +32,20 @@ public:
 
 class Scene {
 public:
-    Scene(const Camera &camera, const std::vector<Sphere> &spheres, const std::vector<Light> &lights, int samples = 1) : camera(camera), lights(lights), spheres(spheres), samples(samples) {};
+    int intersection_count;
+
+    Scene(const Camera &camera, const std::vector<Sphere> &spheres, const std::vector<Light> &lights, int samples = 1, int reflect_depth = 4) : camera(camera), lights(lights), spheres(spheres), samples(samples), intersection_count(), reflect_depth(reflect_depth) {};
     void render();
     bool trace(const vec3f &origin, const vec3f &dir, Intersection &intersect);
-    vec3f shade(const vec3f& dir);
+    vec3f shade(const vec3f &origin, const vec3f& dir, size_t depth = 0);
 
 private:
 
     int samples;
-    std::vector<vec3f> framebuffer;
+    int reflect_depth;
     Camera camera;
+
+    std::vector<vec3f> framebuffer;
     std::vector<Sphere> spheres;
     std::vector<Light> lights;
 };

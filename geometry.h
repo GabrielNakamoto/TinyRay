@@ -38,6 +38,10 @@ inline vec3f operator+(const vec3f &ls, const vec3f &rs){
     return vec3f(ls.x+rs.x, ls.y+rs.y, ls.z+rs.z);
 }
 
+inline vec3f operator-(const vec3f &v){
+    return vec3f(-v.x, -v.y, -v.z);
+}
+
 inline vec3f operator-(const vec3f &ls, const vec3f &rs){
     return vec3f(ls.x-rs.x, ls.y-rs.y, ls.z-rs.z);
 }
