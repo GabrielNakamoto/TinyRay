@@ -54,7 +54,7 @@ vec3f reflect(const vec3f &V, const vec3f &N){
 vec3f Scene::shade(const vec3f &origin, const vec3f &dir, size_t depth){
     Intersection intersect;
 
-    if(depth < reflect_depth && trace(camera.position, dir, intersect)){
+    if(depth <= reflect_depth && trace(origin, dir, intersect)){
         // calculate reflect color
         vec3f reflect_dir = reflect(dir, intersect.normal).normalize();
         vec3f reflect_orig = intersect.hit_point + intersect.normal*1e-3;
@@ -77,7 +77,7 @@ vec3f Scene::shade(const vec3f &origin, const vec3f &dir, size_t depth){
             diffuse_strength += light.intensity * std::max(0.f, dot(light_dir, intersect.normal));
             specular_strength += light.intensity * std::powf(std::max(0.f, dot(view_dir, reflect_ray.normalize())), intersect.material.specular_exponent);
         }
-        return intersect.material.diffuse_color * diffuse_strength * intersect.material.kd + specular_strength * intersect.material.ks + reflect_color * intersect.material.ka;
+        return intersect.material.diffuse_color * diffuse_strength * intersect.material.kd + vec3f(1.0)*specular_strength * intersect.material.ks + reflect_color * intersect.material.ka;
     }
     else {
         return vec3f(0.2, 0.7, 0.8);
